@@ -10,8 +10,7 @@ import os
 from nlp import FooModel, FooNLP, W2VModel
 
 #
-# XGB2, ISO, LR3, RF are all from sklearn and have common input formats (18 features onehot)
-# LBGM has 4 features not onehot, [carat, color, cut, clarity]
+# word2vec and tfidf serialized models
 #
 
 app = Flask(__name__)
@@ -21,8 +20,17 @@ nlp = FooNLP()
 models = {}
 # models['tfidf.nb'] = nlp.load('/azmodels/tfidf.nb.fulltwitter.foonlp.ser')
 # models['w2v.lr'] = nlp.load('/azmodels/w2vcbow.lr.fulltwitter.foonlp.ser')
-models['tfidf.nb'] = nlp.load('models/tfidf.nb.fulltwitter.foonlp.ser')
-models['w2v.lr'] = nlp.load('models/w2vcbow.lr.fulltwitter.foonlp.ser')
+#path = '/azmodels/tfidf.nb.fulltwitter.foonlp.ser'
+#if (os.path.exists(path)):
+#    print(f'----- loading model {path}')
+#    models['tfidf.nb'] = nlp.load('')
+#else:
+#    print(f'----- creating/saving model {path}')
+#    nlp.load_train_twitter(500000, '/azmodels/SentimentAnalysisDataset.csv')
+#    nlp.save(path, nlp)   
+#    models['tfidf.nb'] = nlp
+#
+# models['w2v.lr'] = nlp.load('models/w2vcbow.lr.fulltwitter.foonlp.ser')
 print('loaded models', models)
 
 
@@ -178,33 +186,32 @@ def azure_sentiment(text):
 
 
 def custom_nlp1(text):
-    n = models['w2v.lr']
-    label, prob = n.predict([text])
-    print(label, prob)
+#    n = models['w2v.lr']
+#    label, prob = n.predict([text])
+#    print(label, prob)
 
     resp = {}
-    resp['model'] = 'Foo W2V LR'
+    resp['model'] = 'Foo W2V LR - *pending*'
     resp['extra'] = 'model returns 0 to 1'
     resp['url'] = 'http://foostack.ai/'
-    resp['rScore'] = prob[0][1]
+    #resp['rScore'] = prob[0][1]
+    resp['rScore'] = 0.0
     resp['nScore'] = 2 * (resp['rScore'] - 0.5) 
 
     return resp
 
 
 def custom_nlp2(text):
-    n = models['tfidf.nb']
-    if (n is None):
-        return {}
-
-    label, prob = n.predict([text])
-    print(label, prob)
+#    n = models['tfidf.nb']
+#    label, prob = n.predict([text])
+#    print(label, prob)
 
     resp = {}
-    resp['model'] = 'Foo TFIDF NB'
+    resp['model'] = 'Foo TFIDF NB *pending*'
     resp['extra'] = 'model returns 0 to 1'
     resp['url'] = 'http://foostack.ai/'
-    resp['rScore'] = prob[0][1]
+    #resp['rScore'] = prob[0][1]
+    resp['rScore'] = 0.0
     resp['nScore'] = 2 * (resp['rScore'] - 0.5) 
 
     return resp

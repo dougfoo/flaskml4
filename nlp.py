@@ -219,9 +219,8 @@ class FooNLP(object):
     
     # https://www.kaggle.com/kazanova/sentiment140 - 1.6m tweets
     @timeit
-    def load_train_twitter(self, samplesize=1500000) -> object:
+    def load_train_twitter(self, samplesize=1500000, dictfile='twitter/SentimentAnalysisDataset.csv') -> object:
         self.corpus = 'twitter'
-        dictfile = 'twitter/SentimentAnalysisDataset.csv'
 
         df_merged = pd.read_table(dictfile, delimiter=',', quotechar='"', error_bad_lines=False).sample(samplesize, random_state=5)
         print('merged to corpus size: %d'%len(df_merged))
@@ -304,6 +303,7 @@ if __name__ == "__main__":
     import pprint
     import pandas as pd
     import numpy as np
+    from nlp import FooNLP, FooModel, W2VModel
     pp = pprint.PrettyPrinter(width=140)
     pd.set_option('precision', 2)
     np.set_printoptions(precision=2)
@@ -336,8 +336,8 @@ if __name__ == "__main__":
     # nlp4 = FooNLP(model=W2VModel(mod=BernoulliNB, sg=1, dims=100)) 
     # nlp4 = make_test_model(nlp4, sents, 'w2vsg.nb.fulltwitter.foonlp') 
 
-    # nlp5 = FooNLP(model=FooModel(mod=BernoulliNB, embedding=TfidfVectorizer) ) # need NB that works w/ sparse
-    # nlp5 = make_test_model(nlp5, sents, 'tfidf.nb.fulltwitter.foonlp')        
+    nlp5 = FooNLP(model=FooModel(mod=BernoulliNB, embedding=TfidfVectorizer) ) # need NB that works w/ sparse
+    nlp5 = make_test_model(nlp5, sents, 'tfidf.nb.fulltwitter.foonlp')        
 
     # nlp6 = FooNLP(model=FooModel(mod=BernoulliNB, embedding=CountVectorizer))  # need NB that works w/ sparse 
     # nlp6 = make_test_model(nlp6, sents, 'cvec.nb.fulltwitter.foonlp')

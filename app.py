@@ -18,21 +18,18 @@ CORS(app)
 
 nlp = FooNLP()
 models = {}
-# models['tfidf.nb'] = nlp.load('/azmodels/tfidf.nb.fulltwitter.foonlp.ser')
-# models['w2v.lr'] = nlp.load('/azmodels/w2vcbow.lr.fulltwitter.foonlp.ser')
-
 dir = 'azmodels'
-path = f'{dir}/tfidf.nb.fulltwitter.foonlp.ser'
-if (os.path.exists(path)):
-    print(f'----- loading model {path}')
-    models['tfidf.nb'] = nlp.load(path)
-else:
-    print(f'----- creating/saving model {path}')
-    nlp.load_train_twitter(500000, f'{dir}/SentimentAnalysisDataset.csv')
-    nlp.save(path, nlp)   
-    models['tfidf.nb'] = nlp
 
-# models['w2v.lr'] = nlp.load('models/w2vcbow.lr.fulltwitter.foonlp.ser')
+for f in ['tfidf.nb', 'w2vcbow.lr']:
+    path = f'{dir}/{f}.fulltwitter.foonlp.ser'
+    if (os.path.exists(path)):
+        print(f'----- loading model {path}')
+        models[f] = nlp.load(path)
+    else:
+        print(f'----- creating/saving model {path}')
+        nlp.load_train_twitter(500000, f'{dir}/SentimentAnalysisDataset.csv')
+        nlp.save(path, nlp)   
+        models[f] = nlp
 print('loaded models', models)
 
 
@@ -97,7 +94,7 @@ def sa_predict(model='all'):
         resp['results'] = textblob(sentence)
     elif (model == 'google'):
         resp['results'] = gcp_sentiment(sentence)
-    elif (model == 'w2v.lr'):
+    elif (model == 'w2vcbow.lr'):
         resp['results'] = custom_nlp1(sentence)
     elif (model == 'tfidf.nb'):
         resp['results'] = custom_nlp2(sentence)
@@ -188,32 +185,30 @@ def azure_sentiment(text):
 
 
 def custom_nlp1(text):
-    # n = models['w2v.lr']
-    # label, prob = n.predict([text])
-    # print(label, prob)
+    n = models['w2vcbow.lr']
+    label, prob = n.predict([text])
+    print(label, prob)
 
     resp = {}
-    resp['model'] = 'Foo W2V LR *broken*'
+    resp['model'] = 'Foo W2V LR'
     resp['extra'] = 'model returns 0 to 1'
     resp['url'] = 'http://foostack.ai/'
-    # resp['rScore'] = prob[0][1]
-    resp['rScore'] = 0.0
+    resp['rScore'] = prob[0][1]
     resp['nScore'] = 2 * (resp['rScore'] - 0.5) 
 
     return resp
 
 
 def custom_nlp2(text):
-    # n = models['tfidf.nb']
-    # label, prob = n.predict([text])
-    # print(label, prob)
+    n = models['tfidf.nb']
+    label, prob = n.predict([text])
+    print(label, prob)
 
     resp = {}
-    resp['model'] = 'Foo TFIDF NB *broken*'
+    resp['model'] = 'Foo TFIDF NB'
     resp['extra'] = 'model returns 0 to 1'
     resp['url'] = 'http://foostack.ai/'
-    resp['rScore'] = 0.0
-    # resp['rScore'] = prob[0][1]
+    resp['rScore'] = prob[0][1]
     resp['nScore'] = 2 * (resp['rScore'] - 0.5) 
 
     return resp

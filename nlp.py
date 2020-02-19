@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.naive_bayes import BernoulliNB, ComplementNB, GaussianNB
+from sklearn.naive_bayes import BernoulliNB, ComplementNB
 from sklearn.linear_model import LogisticRegression
 import gensim
 import pandas as pd
@@ -89,7 +89,7 @@ class FooModel(object):
     Basic container for standard 1d embeddings - CountVectorizer, TfidfVectorizer embeddings
     Models MultinomialNB, LogisticRegression that have similar input types
     """
-    def __init__(self, mod=GaussianNB, embedding=CountVectorizer):
+    def __init__(self, mod=BernoulliNB, embedding=CountVectorizer):
         self.embedding = embedding()
         self.mod = mod()
 

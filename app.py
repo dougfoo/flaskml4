@@ -18,7 +18,7 @@ CORS(app)
 
 nlp = FooNLP()
 models = {}
-dir = 'azmodels'
+dir = '/azmodels'
 
 for f in ['tfidf.nb', 'w2vcbow.lr']:
     path = f'{dir}/{f}.fulltwitter.foonlp.ser'

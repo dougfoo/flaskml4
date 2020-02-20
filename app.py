@@ -18,18 +18,20 @@ CORS(app)
 
 nlp = FooNLP()
 models = {}
-dir = '/azmodels'
+# dir = '/azmodels'
 
-for f in ['tfidf.nb', 'w2vcbow.lr']:
-    path = f'{dir}/{f}.fulltwitter.foonlp.ser'
-    if (os.path.exists(path)):
-        print(f'----- loading model {path}')
-        models[f] = nlp.load(path)
-    else:
-        print(f'----- creating/saving model {path}')
-        nlp.load_train_twitter(500000, f'{dir}/SentimentAnalysisDataset.csv')
-        nlp.save(path, nlp)   
-        models[f] = nlp
+# print(f'loading from {dir}')
+
+# for f in ['tfidf.nb', 'w2vcbow.lr']:
+#     path = f'{dir}/{f}.fulltwitter.foonlp.ser'
+#     if (os.path.exists(path)):
+#         print(f'----- loading model {path}')
+#         models[f] = nlp.load(path)
+#     else:
+#         print(f'----- creating/saving model {path}')
+#         nlp.load_train_twitter(500000, f'{dir}/SentimentAnalysisDataset.csv')
+#         nlp.save(path, nlp)   
+#         models[f] = nlp
 print('loaded models', models)
 
 

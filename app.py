@@ -187,8 +187,12 @@ def azure_sentiment(text):
 
 
 def custom_nlp1(text):
-    n = models['w2vcbow.lr']
-    label, prob = n.predict([text])
+    n = models.get('w2vcbow.lr')
+    if (n is None): 
+        label = 'Foo W2V LR *Broken*'
+        prob = [[0.5,0.5]]
+    else:
+        label, prob = n.predict([text])
     print(label, prob)
 
     resp = {}
@@ -202,8 +206,12 @@ def custom_nlp1(text):
 
 
 def custom_nlp2(text):
-    n = models['tfidf.nb']
-    label, prob = n.predict([text])
+    n = models.get('tfidf.nb')
+    if (n is None): 
+        label = 'Foo TFIDF NB *Broken*'
+        prob = [[0.5,0.5]]
+    else:
+        label, prob = n.predict([text])
     print(label, prob)
 
     resp = {}

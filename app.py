@@ -201,7 +201,6 @@ def custom_nlp1(text):
     resp['url'] = 'http://foostack.ai/'
     resp['rScore'] = prob[0][1]
     resp['nScore'] = 2 * (resp['rScore'] - 0.5) 
-
     return resp
 
 
@@ -220,7 +219,6 @@ def custom_nlp2(text):
     resp['url'] = 'http://foostack.ai/'
     resp['rScore'] = prob[0][1]
     resp['nScore'] = 2 * (resp['rScore'] - 0.5) 
-
     return resp
 
 
